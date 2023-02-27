@@ -1,11 +1,10 @@
 # tar1090-db
-Database repo for tar1090 using the database maintained by Mictronics (https://www.mictronics.de/aircraft-database/)
 
-Current update process:
+Automatically updated every 3 days
 
-./update.sh
+- https://github.com/katlol/tar1090-db/releases/latest/download/aircraft.csv.gz
+- https://github.com/katlol/tar1090-db/releases/latest/download/db.tar
 
-# then to update aircraft.csv.gz for readsb server version:
+## Usage
 
-./csv.sh
-
+See [tar1090](https://github.com/katlol/tar1090/blob/master/Dockerfile) and [readsb](https://github.com/katlol/readsb/blob/master/Dockerfile) Dockerfiles.
