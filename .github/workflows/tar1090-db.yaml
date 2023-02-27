@@ -1,7 +1,7 @@
 on:
   schedule:
   # Every 3 days
-  - cron: '0 0 * * *'
+  - cron: '21 18 * * *'
   # But also on push
   push:
     branches:
