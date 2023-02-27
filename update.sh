@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 function getGIT() {
     # getGIT $REPO $BRANCH $TARGET (directory)
@@ -55,6 +55,7 @@ for file in db/*; do
     mv "$file.gz" "$file"
 done
 
-git add db
-git commit --amend --date "$(date)" -m "database update (to keep the repository small, this commit is replaced regularly)"
-git push -f
+# db/ should become out/db.tar
+tar -cf $OUTDIR/db.tar db
+# aircraft.csv should become out/aircraft.csv.gz
+gzip -9 -c aircraft.csv > $OUTDIR/aircraft.csv.gz

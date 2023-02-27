@@ -1,0 +1,29 @@
+on:
+  schedule:
+  # Every 3 days
+  - cron: '0 0 */3 * *'
+  # But also on push
+  push:
+    branches:
+    - master
+
+
+jobs:
+  update-db:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Update database
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        export OUTDIR=$(mktemp -d)
+        sudo apt-get update
+        sudo apt-get install -y unzip curl wget ca-certificates perl sed git bash p7zip
+        bash ./update.sh
+        # release all files
+        wget -qO- https://github.com/c4milo/github-release/releases/download/v1.1.0/github-release_v1.1.0_linux_amd64.tar.gz | tar zxvf -
+        mv github-release /usr/local/bin/github-release
+        chmod +x /usr/local/bin/github-release
+        VERSION=$(date +%Y%m%d)
+        github-release katlol/tar1090-db $VERSION master "tar1090-db $VERSION" "$OUTDIR/*"
