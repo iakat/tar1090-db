@@ -50,10 +50,10 @@ perl -i -pe 's/\\u00(..)/chr(hex($1))/eg' aircraftUtf.json
 
 sed -i -e 's/\\;/,/' aircraft.csv
 
-for file in db/*; do
-    compress "$file"
-    mv "$file.gz" "$file"
-done
+# for file in db/*; do
+#     compress "$file"
+#     mv "$file.gz" "$file"
+# done
 
 # db/ should become out/db.tar
 tar -cf $OUTDIR/db.tar db
