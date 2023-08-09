@@ -11,7 +11,12 @@ function getGIT() {
     popd; return 1;
 }
 
-getGIT https://github.com/chrisglobe/adsbx-type-longnames-chrisglobe.git main "$(pwd)/longnames"
+TEMPDIR=$(mktemp -d)
+wget "https://web.archive.org/web/20230808195136/https://codeload.github.com/chrisglobe/adsbx-type-longnames-chrisglobe/zip/0b14ad501e03a56f745e86779efc9baf9933b650" \
+    -O $TEMPDIR/longnames.zip
+unzip -o $TEMPDIR/longnames.zip -d $TEMPDIR
+mv $TEMPDIR/adsbx-type-longnames-chrisglobe-0b14ad501e03a56f745e86779efc9baf9933b650 "$(pwd)/longnames"
+
 
 wget -O newTypes.json --compression=auto https://raw.githubusercontent.com/Mictronics/readsb-protobuf/dev/webapp/src/db/types.json
 wget -O mic-db.zip https://www.mictronics.de/aircraft-database/indexedDB_old.php
