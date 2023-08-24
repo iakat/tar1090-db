@@ -17,6 +17,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        set -ex
         export OUTDIR=$(mktemp -d)
         sudo apt-get update
         sudo apt-get install -y unzip curl wget ca-certificates perl sed git bash p7zip
@@ -26,13 +27,4 @@ jobs:
         mv github-release /usr/local/bin/github-release
         chmod +x /usr/local/bin/github-release
         VERSION=$(date +%Y%m%d.%H.%M)
-        # First, make sure the files are updated - if not, don't release
-        # Get the latest release
-        LATESTDIR=$(mktemp -d)
-        wget -qO $LATESTDIR/aircraft.csv.gz "https://github.com/katlol/tar1090-db/releases/latest/download/aircraft.csv.gz"
-        wget -qO $LATESTDIR/db.tar "https://github.com/katlol/tar1090-db/releases/latest/download/db.tar"
-        if cmp -s $OUTDIR/aircraft.csv.gz $LATESTDIR/aircraft.csv.gz && cmp -s $OUTDIR/db.tar $LATESTDIR/db.tar; then
-          echo "No changes, not releasing"
-          exit 0
-        fi
         github-release katlol/tar1090-db $VERSION master "tar1090-db $VERSION" "$OUTDIR/*"
